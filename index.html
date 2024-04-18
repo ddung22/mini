@@ -195,10 +195,9 @@
             };
             await addDoc(collection(db, "introbution"), doc);
             alert('후후후 기록했냐구');
-            window.location.reload();
         })
 
-        
+
         let docs = await getDocs(collection(db, "introbution"));
         docs.forEach((doc) => {
             let row = doc.data();
@@ -230,7 +229,7 @@
             return newDiv;
         }
 
-        window.editForm = function(cnt) {
+        window.editForm = function (cnt) {
             let editDiv = document.getElementById("d_" + cnt); //수정할 글의 div
             let editForm = document.getElementById("editf");
             editDiv.appendChild(editForm);
@@ -265,6 +264,7 @@
             document.getElementById("editpwd").value = "";
             cancel();
         }
+ 
         window.del = function del(cnt) {
             let pwd = prompt("비밀번호");
             let delDiv = document.getElementById("d_" + cnt);
