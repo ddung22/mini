@@ -151,9 +151,33 @@
             color: aliceblue;
         }
     </style>
-    <script>
+    <script type="module">
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyAtOv7Nzu9wStVHdgCoxOqgMgkpAIVcalg",
+            authDomain: "minipro-e10e1.firebaseapp.com",
+            projectId: "minipro-e10e1",
+            storageBucket: "minipro-e10e1.appspot.com",
+            messagingSenderId: "430231322365",
+            appId: "1:430231322365:web:dab3898d360efee8994894",
+            measurementId: "G-6XEB0YEFQ5"
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
         let cnt = 1;
-        function a() {
+
+
+
+        $("#postingbtn").click(async function () {
             let writer = f.writer.value;
             let pwd = f.pwd.value;
             let content = f.content.value;
@@ -163,7 +187,34 @@
             f.writer.value = "";
             f.pwd.value = "";
             f.content.value = "";
-        }
+
+            let doc = {
+                writer,
+                pwd,
+                content
+            };
+            await addDoc(collection(db, "introbution"), doc);
+            alert('후후후 기록했냐구');
+            window.location.reload();
+        })
+
+        
+        let docs = await getDocs(collection(db, "introbution"));
+        docs.forEach((doc) => {
+            let row = doc.data();
+            console.log(row)
+
+            let writer = row["writer"];
+            let pwd = row["pwd"];
+            let content = row["content"];
+            let el = mkDiv(writer, pwd, content);
+            let list = document.getElementById("list");
+            list.appendChild(el);
+            f.writer.value = "";
+            f.pwd.value = "";
+            f.content.value = "";
+        });
+
         function mkDiv(writer, pwd, content) {
             let newDiv = document.createElement("div");//새 div태그 생성  <div id="d_1" pwd='111'>
             newDiv.id = "d_" + cnt;//생성한 div에 id 지정. d_cnt
@@ -179,7 +230,7 @@
             return newDiv;
         }
 
-        function editForm(cnt) {
+        window.editForm = function(cnt) {
             let editDiv = document.getElementById("d_" + cnt); //수정할 글의 div
             let editForm = document.getElementById("editf");
             editDiv.appendChild(editForm);
@@ -190,13 +241,13 @@
             document.getElementById("editbtn").cnt = cnt;//버튼에 cnt속성을 추가해서, 수정 글번호를 저장
             editForm.style.display = '';
         }
-        function cancel() {
+        window.cancel = function cancel() {
             let editForm = document.getElementById("editf");
             editForm.style.display = 'none';
             document.getElementsByTagName("body")[0].appendChild(editForm);
 
         }
-        function edit() {
+        window.edit = function edit() {
             let cnt = document.getElementById("editbtn").cnt;
             let editDiv = document.getElementById("d_" + cnt);
             let pwd2 = document.getElementById("editpwd").value;//수정폼에 입력한 글 비밀번호
@@ -214,7 +265,7 @@
             document.getElementById("editpwd").value = "";
             cancel();
         }
-        function del(cnt) {
+        window.del = function del(cnt) {
             let pwd = prompt("비밀번호");
             let delDiv = document.getElementById("d_" + cnt);
             if (pwd == delDiv.pwd) {
@@ -233,14 +284,23 @@
             $('#button').hide();
         })
 
-        function openclose() {
+        $("#topbtn").click(async function () {
             $('#memberbox').toggle();
             $('#speech-bubble').toggle();
             $('#t1').toggle();
             $('#list').toggle();
             $('#center-button').toggle();
             $('#button').toggle();
-        }
+        })
+
+        $("#centerbtn").click(async function () {
+            $('#memberbox').toggle();
+            $('#speech-bubble').toggle();
+            $('#t1').toggle();
+            $('#list').toggle();
+            $('#center-button').toggle();
+            $('#button').toggle();
+        })
 
     </script>
 </head>
@@ -251,7 +311,7 @@
     </div>
 
     <div class="box" id="button">
-        <img class="profile" src="https://i.ibb.co/T08MjvT/logo.png" alt="..." button onclick="openclose()"></button>
+        <img class="profile" src="https://i.ibb.co/T08MjvT/logo.png" alt="..." button id="topbtn"></button>
     </div>
 
     <div class="cols" id="memberbox">
@@ -288,7 +348,7 @@
     </div>
 
     <div class="center_box" id="center-button">
-        <img class="profile_2" src="https://i.ibb.co/T08MjvT/logo.png" alt="..." button onclick="openclose()"></button>
+        <img class="profile_2" src="https://i.ibb.co/T08MjvT/logo.png" alt="..." button id="centerbtn"></button>
     </div>
 
     <div id="speech-bubble" class="speech-bubble">
@@ -317,7 +377,7 @@
             </tr>
             <tr>
                 <th>작성</th>
-                <td><input type="button" value="작성" onclick="a()" class="btnsetting"></td>
+                <td><input type="button" value="작성" id="postingbtn" class="btnsetting"></td>
             </tr>
         </table>
     </form>
