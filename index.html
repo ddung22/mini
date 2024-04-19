@@ -152,24 +152,20 @@
         }
     </style>
     <script type="module">
-        // Firebase SDK 라이브러리 가져오기
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+       // Firebase SDK 라이브러리 가져오기
+       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-
-
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        // Firebase 구성 정보 설정
         const firebaseConfig = {
-            apiKey: "AIzaSyAtOv7Nzu9wStVHdgCoxOqgMgkpAIVcalg",
-            authDomain: "minipro-e10e1.firebaseapp.com",
-            projectId: "minipro-e10e1",
-            storageBucket: "minipro-e10e1.appspot.com",
-            messagingSenderId: "430231322365",
-            appId: "1:430231322365:web:dab3898d360efee8994894",
-            measurementId: "G-6XEB0YEFQ5"
+            apiKey: "AIzaSyDvZGRNDazVdFxH8AOKEeoJyvfiVaLs6p0",
+            authDomain: "mini-project-intro.firebaseapp.com",
+            projectId: "mini-project-intro",
+            storageBucket: "mini-project-intro.appspot.com",
+            messagingSenderId: "827958942342",
+            appId: "1:827958942342:web:d04612336b4dec72b5cf07"
         };
-
         // Firebase 인스턴스 초기화
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
